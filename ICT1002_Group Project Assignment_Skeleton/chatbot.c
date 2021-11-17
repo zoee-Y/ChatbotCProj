@@ -308,9 +308,8 @@ int chatbot_do_save(int inc, char *inv[], char *response, int n) {
  */
 int chatbot_is_smalltalk(const char *intent) {
 
-	/* to be implemented */
-
-	return 0;
+	// if intent is hi/hello/goodbye
+	return compare_token(intent, "hi") == 0 || compare_token(intent, "hello") == 0 || compare_token(intent, "goodbye") == 0;
 
 }
 
@@ -327,8 +326,16 @@ int chatbot_is_smalltalk(const char *intent) {
  */
 int chatbot_do_smalltalk(int inc, char *inv[], char *response, int n) {
 
-	/* to be implemented */
-
+	// check if user said goodbye
+	if (compare_token(*inv, "goodbye") == 0) {
+		snprintf(response, n, "Goodbye!");
+		//stop the conversation
+		return 1;
+	}
+	
+	//if its not goodbye, respond hi
+	snprintf(response, n, "Hi!");
+	//continue the conversation
 	return 0;
 
 }
