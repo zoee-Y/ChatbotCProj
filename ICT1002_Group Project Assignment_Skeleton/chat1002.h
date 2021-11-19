@@ -56,4 +56,25 @@ void knowledge_reset();
 int knowledge_read(FILE *f);
 void knowledge_write(FILE *f);
 
+
+
+
+/*Creating structure of the linked nodes*/
+struct question_node{
+    char intent[MAX_INTENT];   // Attribute 'intent', max char size: 32
+    char entity[MAX_ENTITY];   // Attribute 'entity', Maximum char size :64
+    char response[MAX_RESPONSE]; //Attribute 'response', Maximum char size :256
+    struct question_node *next; // Pointer to the next node in the linked list.
+};
+typedef struct question_node question_node;
+
+/*Defining Head Pointer for question_nodes (who, where, what) */
+question_node *who_head;
+question_node *where_head;
+question_node *what_head;
+
+/*Defining temp for question_nodes */
+question_node *points;
+
+
 #endif
