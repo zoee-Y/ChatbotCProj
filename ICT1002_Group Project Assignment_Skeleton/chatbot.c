@@ -192,7 +192,7 @@ int chatbot_do_load(int inc, char *inv[], char *response, int n) {
  */
 int chatbot_is_question(const char *intent) {
 
-	/* to be implemented */
+	return( compare_token(intent, "what") == 0 || compare_token(intent, "where") == 0 || compare_token(intent,"who") == 0);
 
 	return 0;
 
@@ -213,10 +213,31 @@ int chatbot_is_question(const char *intent) {
  *   0 (the chatbot always continues chatting after a question)
  */
 int chatbot_do_question(int inc, char *inv[], char *response, int n) {
+	char *intent = inv[0];
+	char entity[MAX_ENTITY];
+    char ignore[MAX_ENTITY];			
+    char * ignorelist[] = {"is","are"};  
 
-	/* to be implemented */
+	
+	getEntity(inc, inv, ignorelist, 2, entity, ignore);
 
+	if (knowledge_get(intent, entity, response, n ) == KB_NOTFOUND){
+		char answer[MAX_RESPONSE];
+		prompt_user(answer, n, "I Don't Know. %s%s%s", intent, ignore, entity);
+	
+	char *fliter = trim (answer);
+	if(strlen(fliter) != 0){
+		knowledge_put(intent,entity,fliter);
+		snprintf(response, n, "Thank You. ");
+		}
+	else{
+		snprintf(response, n, ":-(");
+	}
+				
+	}
 	return 0;
+
+	
 
 }
 
