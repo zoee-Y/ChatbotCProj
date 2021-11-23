@@ -431,7 +431,10 @@ int chatbot_do_smalltalk(int inc, char *inv[], char *response, int n) {
 	return 0;
 
 }
+	  
 	    
+	    
+// To ignore inv[1] if the word is 'is' or 'are'  
 	    
 int compare_ignorelist(char * word, char * ignorelist[], int ignorelistsize){
     
@@ -449,7 +452,7 @@ int compare_ignorelist(char * word, char * ignorelist[], int ignorelistsize){
 	    
 
 	    
-// To ignore inv[1] if the word is 'is' or 'are'    
+// Get entity from user's input 
 	    
 void getEntity(int inc, char *inv[], char * ignorelist[], int ignorelistsize, char entity[], char removed[]){
 	
