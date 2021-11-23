@@ -432,6 +432,21 @@ int chatbot_do_smalltalk(int inc, char *inv[], char *response, int n) {
 
 }
 	    
+	    
+int compare_ignorelist(char * word, char * ignorelist[], int ignorelistsize){
+    
+    for(int i = 0; i < ignorelistsize; i++ ){    // Loop through each word in the ignore list
+        // Insensitively check
+        if(compare_token(word, ignorelist[i]) == 0){
+            // Return true
+            return 1;
+        }
+    }
+    // Return false
+    return 0;
+}
+
+	    
 
 	    
 // To ignore inv[1] if the word is 'is' or 'are'    
