@@ -155,10 +155,11 @@ int chatbot_do_exit(int inc, char *inv[], char *response, int n) {
  */
 int chatbot_is_load(const char *intent) {
 	
-	/* to be implemented */
-
-	return 0;
-
+	if (compare_token(intent, "load") == 0){
+		return 1
+	} else {
+		return 0;
+	}
 }
 
 
@@ -285,7 +286,11 @@ int chatbot_do_question(int inc, char *inv[], char *response, int n) {
  */
 int chatbot_is_reset(const char *intent) {
 
-	/* to be implemented */
+	if (compare_token(intent, "reset") == 0){
+		return 1
+	} else {
+		return 0;
+	}
 
 	return 0;
 
@@ -321,8 +326,11 @@ int chatbot_do_reset(int inc, char *inv[], char *response, int n) {
  *  0, otherwise
  */
 int chatbot_is_save(const char *intent) {
-
-	/* to be implemented */
+	if (compare_token(intent, "save") == 0){
+		return 1
+	} else {
+		return 0;
+	}
 
 	return 0;
 
