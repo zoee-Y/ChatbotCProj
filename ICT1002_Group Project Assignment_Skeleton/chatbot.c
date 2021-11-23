@@ -431,3 +431,42 @@ int chatbot_do_smalltalk(int inc, char *inv[], char *response, int n) {
 	return 0;
 
 }
+	    
+
+	    
+// To ignore inv[1] if the word is 'is' or 'are'    
+	    
+void getEntity(int inc, char *inv[], char * ignorelist[], int ignorelistsize, char entity[], char removed[]){
+	
+    int entity_length = 0;		// Index to insert the next word
+
+    							
+	for(int i = 1; i<inc; i++){
+        
+		if(i == 1){
+            
+            if(compare_ignorelist(inv[i], ignorelist, ignorelistsize)){                							// Check if first word is inside in the ignorelist
+                
+				snprintf(removed, MAX_ENTITY, " %s ", inv[i]);													//Store ignored word in between spaces
+				
+				entity_length += snprintf(entity+entity_length, MAX_ENTITY-entity_length, "%s", "");			//Change entity to blank
+			}
+			else{
+				
+				snprintf(removed, MAX_ENTITY, "%s", " ");														// remove spacing
+				
+				entity_length += snprintf(entity+entity_length, MAX_ENTITY-entity_length, "%s", inv[i]);		//change entity to first word
+			}
+		}
+		else
+		{
+		
+			if(strcmp(entity, "") != 0){
+				entity_length += snprintf(entity + entity_length, MAX_ENTITY-entity_length," %s", inv[i]);	//2nd words onwards are accumulated
+			}
+			else {
+				entity_length += snprintf(entity + entity_length, MAX_ENTITY-entity_length,"%s", inv[i]);
+			}
+		}
+	}
+}
