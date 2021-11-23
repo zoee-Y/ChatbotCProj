@@ -35,42 +35,49 @@ int knowledge_get(const char *intent, const char *entity, char *response, int n)
   /* Refer to chat1002.h for information about "points" and "head" */
 
   if (compare_token(intent, "who") == 0) {  /*If Intent is who.*/
+    if (who_head != NULL){/* Check Whether linked list exists*/   
     points = who_head; /* Moves points to Who Linked list starting node */
-    do{/* points will look for the entity to check whether it exists*/   
-      if (compare_token(entity, points->entity) == 0){
+    
+    do{/* points will look for the entity to check whether it exists*/  
+      if (compare_token(points->entity, entity ) == 0){
         /* strncpy function: strncpy(char *dest, const char *src, size_t n)*/
         strncpy(response, points->response, n); /* strcpy it to the response */
         return KB_OK;
         }
       points=points->next; /* Moves "points" to the next node to look for entity */ 
     }while (compare_token(intent, "who") == 0); /* points will terminate once intent is not "who" in the node */
-
-    return KB_NOTFOUND;/* Points did not find the entity */
-
+    }
+    else{
+      return KB_NOTFOUND;/* Points did not find the entity */
+    }
   }else if (compare_token(intent, "what") == 0) { /*If Intent is what.*/
+    if (what_head != NULL){/* Check Whether linked list exists*/ 
     points = what_head;
     do{/* points will look for the entity to check whether it exists*/  
-      if (compare_token(entity, points->entity) == 0){
+      if (compare_token(points->entity, entity ) == 0){
         strncpy(response, points->response, n); /* strcpy it to the response */
         return KB_OK;
-        }
-      points=points->next; /* Moves "points" to the next node to look for entity */ 
+        }      
+    points=points->next; /* Moves "points" to the next node to look for entity */ 
     }while (compare_token(intent, "what") == 0); /* points will terminate once intent is not "what" in the node */
-
-    return KB_NOTFOUND;/* Points did not find the entity */
-
+    }
+    else{
+      return KB_NOTFOUND;/* Points did not find the entity */
+    }
   }else if (compare_token(intent, "where") == 0) { /*If Intent is where.*/
+    if (where_head != NULL){/* Check Whether linked list exists*/ 
     points = what_head; 
     do{/* points will look for the entity to check whether it exists*/  
-      if (compare_token(entity, points->entity) == 0){
+      if (compare_token(points->entity, entity ) == 0){
         strncpy(response, points->response, n); /* strcpy it to the response */
         return KB_OK;
         }
-      points=points->next; /* Moves "points" to the next node to look for entity */ 
+    points=points->next; /* Moves "points" to the next node to look for entity */ 
     }while (compare_token(intent, "where") == 0); /* points will terminate once intent is not "where" in the node */
-
-    return KB_NOTFOUND; /* Points did not find the entity */
-
+    }
+    else{
+      return KB_NOTFOUND;/* Points did not find the entity */
+    }
   } else { /* Intent is not who,what,where */
     return KB_INVALID; 
   }
