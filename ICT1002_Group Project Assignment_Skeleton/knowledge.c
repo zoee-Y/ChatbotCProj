@@ -99,21 +99,27 @@ int knowledge_put(const char *intent, const char *entity, const char *response) 
 		if (new_node == NULL){ /* if new_node is null, there was a memory allocation failure */
 			return KB_NOMEM;
 		}
-		new_node->intent = intent; /* put all the data into this new_node */
-		new_node->response = response;
-		new_node->entity = entity; 
+		//new_node->intent = intent; /* put all the data into this new_node */
+		strcpy(new_node->intent, intent);
+		//new_node->response = response;
+		strcpy(new_node->response, response);
+		//new_node->entity = entity;
+		strcpy(new_node->entity, entity);
       		if (strlen(points->intent) == 0){ /* if there is no intent for "who" in the database, assign all the data from new_node to points */
 			points = new_node;
 			return KB_FOUND;
 		} else {
 			do{ /* points will look for the entity to check whether it exists*/   
       				if (points->entity == NULL){ /* if there is no entity in the Who Linked list, then add in the entity and response */
-        				points->entity = new_node->entity;
-					points->response = new_node->response;
+        				//points->entity = new_node->entity;
+						strcpy(points->entity, new_node->entity);
+					//points->response = new_node->response;
+					strcpy(points->response, new_node->response);
 					return KB_FOUND;
 				} else if (compare_token(entity, points->entity) == 0) { /* if there is a match to the entity in the Who Linked list, 
 				then add/change the response */
-					points->response = new_node->response;
+					//points->response = new_node->response;
+					strcpy(points->response, new_node->response);
 					return KB_FOUND;
 				} else {
       					break; /* Break out of the if-else statement to find the next entity */
@@ -127,21 +133,27 @@ int knowledge_put(const char *intent, const char *entity, const char *response) 
 		if (new_node == NULL){ /* if new_node is null, there was a memory allocation failure */
 			return KB_NOMEM;
 		}
-		new_node->intent = intent; /* put all the data into this new_node */
-		new_node->response = response;
-		new_node->entity = entity; 
+		//new_node->intent = intent; /* put all the data into this new_node */
+		strcpy(new_node->intent, intent);
+		//new_node->response = response;
+		strcpy(new_node->response, response);
+		//new_node->entity = entity; 
+		strcpy(new_node->entity, entity);
       		if (strlen(points->intent) == 0){ /* if there is no intent for "what" in the database, assign all the data from new_node to points */
 			points = new_node;
 			return KB_FOUND;
 		} else {
 			do{ /* points will look for the entity to check whether it exists*/   
       				if (points->entity == NULL){ /* if there is no entity in the What Linked list, then add in the entity and response */
-        				points->entity = new_node->entity;
-					points->response = new_node->response;
+        				//points->entity = new_node->entity;
+						strcpy(points->entity, new_node->entity);
+					//points->response = new_node->response;
+					strcpy(points->response, new_node->response);
 					return KB_FOUND;
 				} else if (compare_token(entity, points->entity) == 0) { /* if there is a match to the entity in the What Linked list, 
 				then add/change the response */
-					points->response = new_node->response;
+					//points->response = new_node->response;
+					strcpy(points->response, new_node->response);
 					return KB_FOUND;
 				} else {
       					break; /* Break out of the if-else statement to find the next entity */
@@ -155,21 +167,27 @@ int knowledge_put(const char *intent, const char *entity, const char *response) 
 		if (new_node == NULL){ /* if new_node is null, there was a memory allocation failure */
 			return KB_NOMEM;
 		}
-		new_node->intent = intent; /* put all the data into this new_node */
-		new_node->response = response;
-		new_node->entity = entity; 
+		//new_node->intent = intent; /* put all the data into this new_node */
+		strcpy(new_node->intent, intent);
+		//new_node->response = response;
+		strcpy(new_node->response, response);
+		//new_node->entity = entity;
+		strcpy(new_node->entity, entity);
       		if (strlen(points->intent) == 0){ /* if there is no intent for "where" in the database, assign all the data from new_node to points */
 			points = new_node;
 			return KB_FOUND;
 		} else {
 			do{ /* points will look for the entity to check whether it exists*/   
       				if (points->entity == NULL){ /* if there is no entity in the Where Linked list, then add in the entity and response */
-        				points->entity = new_node->entity;
-					points->response = new_node->response;
+        				//points->entity = new_node->entity;
+						strcpy(points->entity, new_node->entity);
+					//points->response = new_node->response;
+					strcpy(points->response, new_node->response);
 					return KB_FOUND;
 				} else if (compare_token(entity, points->entity) == 0) { /* if there is a match to the entity in the Where Linked list, 
 				then add/change the response */
-					points->response = new_node->response;
+					//points->response = new_node->response;
+					strcpy(points->response, new_node->response);
 					return KB_FOUND;
 				} else {
       					break; /* Break out of the if-else statement to find the next entity */

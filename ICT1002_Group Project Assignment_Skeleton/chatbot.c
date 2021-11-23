@@ -156,7 +156,7 @@ int chatbot_do_exit(int inc, char *inv[], char *response, int n) {
 int chatbot_is_load(const char *intent) {
 	
 	if (compare_token(intent, "load") == 0){
-		return 1
+		return 1;
 	} else {
 		return 0;
 	}
@@ -197,7 +197,7 @@ int chatbot_do_load(int inc, char *inv[], char *response, int n) {
 	if (file_check != NULL)
 	{
 		// File exist and would read the number of responses in it
-		reposnes = knowledge_read(file_check);
+		responses = knowledge_read(file_check);
 		fclose(file_check);
 		printf("There are %d reponses in %s.",responses,file_check);
 	}
@@ -287,7 +287,7 @@ int chatbot_do_question(int inc, char *inv[], char *response, int n) {
 int chatbot_is_reset(const char *intent) {
 
 	if (compare_token(intent, "reset") == 0){
-		return 1
+		return 1;
 	} else {
 		return 0;
 	}
@@ -327,7 +327,7 @@ int chatbot_do_reset(int inc, char *inv[], char *response, int n) {
  */
 int chatbot_is_save(const char *intent) {
 	if (compare_token(intent, "save") == 0){
-		return 1
+		return 1;
 	} else {
 		return 0;
 	}
@@ -353,7 +353,7 @@ int chatbot_do_save(int inc, char *inv[], char *response, int n) {
 	
 	// Checking to see if it is "save to" or "save as"
 	
-	if (compare_token(inv[1],"to") == 0 || (compare_token(inv[1],"as") == 0)
+	if (compare_token(inv[1],"to") == 0 || compare_token(inv[1],"as") == 0)
 	    {
 		    strcpy(filename,inv[2]);
 	    }
