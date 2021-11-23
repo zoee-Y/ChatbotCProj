@@ -95,7 +95,7 @@ int knowledge_get(const char *intent, const char *entity, char *response, int n)
 int knowledge_put(const char *intent, const char *entity, const char *response) {
 	if (compare_token(intent, "who") == 0){ /*If Intent is who.*/
 		points = who_head; /* Moves points to Who Linked list starting node */
-		question_node *new_node = (question_node *)malloc(sizeof(question_node)); /* assign memory for new_node */
+		question_node *new_node = (question_node *)calloc(3, sizeof(question_node)); /* assign memory for new_node */
 		if (new_node == NULL){ /* if new_node is null, there was a memory allocation failure */
 			return KB_NOMEM;
 		}
@@ -123,7 +123,7 @@ int knowledge_put(const char *intent, const char *entity, const char *response) 
 		}
 	} else if (compare_token(intent, "what") == 0){ /*If Intent is what.*/
 		points = what_head; /* Moves points to What Linked list starting node */
-		question_node *new_node = (question_node *)malloc(sizeof(question_node)); /* assign memory for new_node */
+		question_node *new_node = (question_node *)calloc(3, sizeof(question_node)); /* assign memory for new_node */
 		if (new_node == NULL){ /* if new_node is null, there was a memory allocation failure */
 			return KB_NOMEM;
 		}
@@ -151,7 +151,7 @@ int knowledge_put(const char *intent, const char *entity, const char *response) 
 		}
 	} else if (compare_token(intent, "where") == 0){ /*If Intent is where.*/
 		points = where_head; /* Moves points to Where Linked list starting node */
-		question_node *new_node = (question_node *)malloc(sizeof(question_node)); /* assign memory for new_node */
+		question_node *new_node = (question_node *)calloc(3, sizeof(question_node)); /* assign memory for new_node */
 		if (new_node == NULL){ /* if new_node is null, there was a memory allocation failure */
 			return KB_NOMEM;
 		}
