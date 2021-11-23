@@ -154,7 +154,7 @@ int chatbot_do_exit(int inc, char *inv[], char *response, int n) {
  *  0, otherwise
  */
 int chatbot_is_load(const char *intent) {
-
+	
 	/* to be implemented */
 
 	return 0;
@@ -173,8 +173,39 @@ int chatbot_is_load(const char *intent) {
  */
 int chatbot_do_load(int inc, char *inv[], char *response, int n) {
 
-	/* to be implemented */
-
+	
+	char filename[MAX_INPUT];
+	FILE *file_check;
+	int responses = 0;
+	
+	// To load the file
+	if (compare_token(inv[1], "from") == 0) 
+	{
+		strcpy(filename,inv[2]);
+	}
+	
+	else
+	{
+		strcpy(filename,inv[1]);
+	}
+	
+	// Open the file in read format
+	file_check = fopen(filename,"r");
+	
+	// check if the file exist
+	if (file_check != NULL)
+	{
+		// File exist and would read the number of responses in it
+		reposnes = knowledge_read(file_check);
+		fclose(file_check);
+		printf("There are %d reponses in %s.",responses,file_check);
+	}
+	else
+	{
+		// File does not exist and an error message would pop out
+		printf("There is an error in loading the knowledge %s.",file_check);
+	}
+		       
 	return 0;
 
 }
@@ -309,7 +340,39 @@ int chatbot_is_save(const char *intent) {
  */
 int chatbot_do_save(int inc, char *inv[], char *response, int n) {
 
-	/* to be implemented */
+	char filename[MAX_INPUT];
+	FILE *file_check;
+	
+	// Checking to see if it is "save to" or "save as"
+	
+	if (compare_token(inv[1],"to") == 0 || (compare_token(inv[1],"as") == 0)
+	    {
+		    strcpy(filename,inv[2]);
+	    }
+	    
+	else 
+	    {
+		strcpy(filename,inv[1]);
+	    }
+	    
+	// opening the file in write mode 
+	file_check = fopen(filename,"w");
+	
+	// To check whether if the file have been created 
+	if (file_check != NULL) 
+	    { 
+		    // if filename is created, it would write and save the knowedge in
+		    knowledge_write(file_check);
+		    fclose(file_check);
+		    printf("The new knowledge have been successfully saved to %s.",filename);
+	    }
+	
+	else
+	    { 
+		    // if filename is not created, thee would be an error message which would show up
+		    printf("There seem to have some error in saving the new knowledge to %s.",filename);
+	    }
+	
 
 	return 0;
 
