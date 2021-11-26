@@ -229,8 +229,31 @@ int knowledge_read(FILE *f) {
  */
 void knowledge_reset() {
 
-	/* to be implemented */
+if (who_head != NULL){
 
+	    while (who_head != NULL) { 
+		points = who_head;       
+        who_head = who_head->next; 
+        free(points);
+		}
+}
+if (what_head != NULL){
+
+	    while (what_head != NULL) { 
+		points = what_head;       
+        what_head = what_head->next; 
+        free(points);
+		}
+}
+
+if (where_head != NULL){
+
+	    while (where_head != NULL) { 
+		points = where_head;       
+        where_head = where_head->next; 
+        free(points);
+		}
+	}
 }
 
 
