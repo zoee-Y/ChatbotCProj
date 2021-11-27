@@ -218,9 +218,75 @@ int knowledge_put(const char *intent, const char *entity, const char *response) 
  */
 int knowledge_read(FILE *f) {
 
-	/* to be implemented */
+  char line[MAX_ENTITY + 1 + MAX_RESPONSE + 1] = "";
+  size_t n = 1;
+  char *intent;
+  char *entity;
+  char *response;
+  int result;
 
-	return 0;
+  if (f == NULL) {
+    printf("Could not open file\n");
+    return 1;
+  }
+  else {
+    while (!feof(f)) {
+      while (fgets(line, MAX_ENTITY + 1 + MAX_RESPONSE + 1, f)) {
+        size_t length = strlen(line);
+
+        if (length) { //if is not empty line
+          //if there is occurrence of \n in the line
+          if (strchr(line, '\n') != NULL) {
+            //printf("newline found");
+            *strchr(line, '\n') = '\0';
+          }
+
+          //if there is occurrence of \r in the line
+          else if (strchr(line, '\r') != NULL) {
+            *strchr(line, '\r') = '\0';
+          }
+          
+          //if the line is an intent with square brackets
+          if (strchr(line, '[') != NULL && strchr(line, ']') != NULL) { 
+            //if it is, then check which intent is it under
+            if (compare_token(line, "[what]") == 0) {
+              intent = "what";
+              continue;
+            }
+            else if (compare_token(line, "[where]") == 0) {
+              intent = "where";
+              continue;
+            }
+            else if (compare_token(line, "[who]") == 0) {
+              intent = "who";
+              continue;
+            }
+            else {
+              //if not what/where/who, it is invalid intent
+              intent = NULL;
+            }
+          }
+          //if not intent
+          
+          //check if the intent is valid first
+          if (intent != NULL) {
+            //check if it is entity-response pair with =
+            if (strchr(line, '=') != NULL) {
+              entity = strtok(line, "=");
+              response = strtok(NULL, "=");
+              result = knowledge_put(intent, entity, response);
+              if (result == KB_FOUND) {
+                n++;
+                printf("%zu", n);
+              }
+            } 
+          }
+        }
+      }
+    }
+  }
+
+	return n;
 }
 
 
@@ -265,6 +331,25 @@ if (where_head != NULL){
  */
 void knowledge_write(FILE *f) {
 
-	/* to be implemented */
+	if (who_head != NULL){
+    fprintf(f, "[who]\n");
+	  while (who_head != NULL) { 
+      fprintf(f, "%s=%s\n", who_head->entity, who_head->response);
+		}
+  }
+
+  if (what_head != NULL){
+    fprintf(f, "[what]\n");
+	  while (what_head != NULL) { 
+      fprintf(f, "%s=%s\n", what_head->entity, what_head->response);
+		}
+  }
+
+  if (where_head != NULL){
+    fprintf(f, "[where]\n");
+	  while (where_head != NULL) { 
+      fprintf(f, "%s=%s\n", where_head->entity, where_head->response);
+		}
+  }
 
 }
