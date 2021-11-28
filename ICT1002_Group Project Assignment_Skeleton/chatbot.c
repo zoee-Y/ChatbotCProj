@@ -401,8 +401,7 @@ int chatbot_do_save(int inc, char *inv[], char *response, int n) {
 int chatbot_is_smalltalk(const char *intent) {
 
 	// if intent is hi/hello/goodbye
-	return compare_token(intent, "hi") == 0 || compare_token(intent, "hello") == 0 || compare_token(intent, "goodbye") == 0;
-
+	return compare_token(intent, "hi") == 0 || compare_token(intent, "hello") == 0 || compare_token(intent, "goodbye") == 0 || compare_token(intent, "it's") == 0 || compare_token(intent, "It's") == 0 || compare_token(intent, "its") == 0 || compare_token(intent, "Its") == 0;
 }
 
 
@@ -424,12 +423,24 @@ int chatbot_do_smalltalk(int inc, char *inv[], char *response, int n) {
 		//stop the conversation
 		return 1;
 	}
+  	if (compare_token(*inv, "its") == 0 ||compare_token(*inv, "it's") == 0 || compare_token(*inv, "It's") == 0) {
+		snprintf(response, n, "Indeed it is.");
+		//stop the conversation
+		return 0;
+	}
+	if (compare_token(*inv, "joke") == 0) {
+		snprintf(response, n, "Indeed it is");
+		//stop the conversation
+		return 0;
+	}
 	
 	//if its not goodbye, respond hi
-	snprintf(response, n, "Hi!");
-	//continue the conversation
-	return 0;
-
+	if (compare_token(*inv, "hi") == 0) {
+		snprintf(response, n, "Hi!");
+		//stop the conversation
+		return 0;
+	}
+	return 1;
 }
 	  
 	    
