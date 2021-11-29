@@ -308,8 +308,9 @@ int chatbot_is_reset(const char *intent) {
  */
 int chatbot_do_reset(int inc, char *inv[], char *response, int n) {
 
-	/* to be implemented */
-
+	knowledge_reset();
+	snprintf(response, n,"%s resetted", chatbot_botname());
+	
 	return 0;
 
 }
