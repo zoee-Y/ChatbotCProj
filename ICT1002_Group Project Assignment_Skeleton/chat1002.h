@@ -27,7 +27,7 @@
 #define KB_NOTFOUND -1
 #define KB_INVALID  -2
 #define KB_NOMEM    -3
-#define KB_FOUND     1
+#define KB_FOUND     0
  
 /* functions defined in main.c */
 int compare_token(const char *token1, const char *token2);
@@ -76,7 +76,8 @@ question_node *where_head;
 question_node *what_head;
 
 /*Defining temp for question_nodes */
-question_node *points;
-
+question_node *who_points;
+question_node *what_points;
+question_node *where_points;
 
 #endif
