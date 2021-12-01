@@ -308,7 +308,6 @@ void knowledge_reset() {
 
 }
 
-
 /*
  * Write the knowledge base to a file.
  *
