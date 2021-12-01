@@ -273,39 +273,38 @@ int knowledge_read(FILE *f) {
 	return n;
 }
 
-
 /*
  * Reset the knowledge base, removing all know entitities from all intents.
  */
 void knowledge_reset() {
 
-if (who_head != NULL){
+	if (who_head != NULL){
 
 	    while (who_head != NULL) { 
-		points = who_head;       
+		who_points = who_head;       
         who_head = who_head->next; 
-        free(points);
+        free(who_points);
 		}
-}
-if (what_head != NULL){
+  }
+  if (what_head != NULL){
 
 	    while (what_head != NULL) { 
-		points = what_head;       
+		what_points = what_head;       
         what_head = what_head->next; 
-        free(points);
+        free(what_points);
 		}
-}
+  }
 
-if (where_head != NULL){
+  if (where_head != NULL){
 
 	    while (where_head != NULL) { 
-		points = where_head;       
+		    where_points = where_head;       
         where_head = where_head->next; 
-        free(points);
+        free(where_points);
 		}
 	}
-}
 
+}
 
 /*
  * Write the knowledge base to a file.
