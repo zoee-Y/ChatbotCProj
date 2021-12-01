@@ -202,7 +202,7 @@ int knowledge_put(const char *intent, const char *entity, const char *response) 
 int knowledge_read(FILE *f) {
 
   char line[MAX_ENTITY + 1 + MAX_RESPONSE + 1] = "";
-  size_t n = 1;
+  size_t n = 0;
   char *intent;
   char *entity;
   char *response;
@@ -257,11 +257,13 @@ int knowledge_read(FILE *f) {
             if (strchr(line, '=') != NULL) {
               entity = strtok(line, "=");
               response = strtok(NULL, "=");
+              //printf("----In file:----\nIntent: %s\nLine : %s=%s\n", intent, entity, response);
+              //printf("%s\n", response);
               result = knowledge_put(intent, entity, response);
               if (result == KB_FOUND) {
                 n++;
                 //printf("line no: %zu\n", n);
-                //printf("Loaded:\nLine %zu : %s=%s\n", n, entity, response);
+                //printf("----Found:----\nIntent: %s\nLine %zu : %s=%s\n", intent, n, entity, response);
               }
             } 
           }
@@ -273,37 +275,37 @@ int knowledge_read(FILE *f) {
 	return n;
 }
 
-
 /*
  * Reset the knowledge base, removing all know entitities from all intents.
  */
 void knowledge_reset() {
 
-if (who_head != NULL){
+	if (who_head != NULL){
 
-	    while (who_head != NULL) { 
-		points = who_head;       
-        who_head = who_head->next; 
-        free(points);
+    while (who_head != NULL) { 
+		  who_points = who_head;       
+      who_head = who_head->next; 
+      free(who_points);
 		}
-}
-if (what_head != NULL){
+  }
+  if (what_head != NULL){
 
-	    while (what_head != NULL) { 
-		points = what_head;       
-        what_head = what_head->next; 
-        free(points);
+    while (what_head != NULL) { 
+		  what_points = what_head;       
+      what_head = what_head->next; 
+      free(what_points);
 		}
-}
+  }
 
-if (where_head != NULL){
+  if (where_head != NULL){
 
-	    while (where_head != NULL) { 
-		points = where_head;       
-        where_head = where_head->next; 
-        free(points);
+    while (where_head != NULL) { 
+      where_points = where_head;       
+      where_head = where_head->next; 
+      free(where_points);
 		}
 	}
+
 }
 
 

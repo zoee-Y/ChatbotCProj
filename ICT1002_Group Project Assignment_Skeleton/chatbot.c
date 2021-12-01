@@ -43,7 +43,25 @@
 #include <stdio.h>
 #include <string.h>
 #include "chat1002.h"
+#include <ctype.h>
 
+
+char *trimString(char *str)
+{
+    char *end;
+
+    while(isspace((unsigned char)*str)) str++;
+
+    if(*str == 0)
+        return str;
+
+    end = str + strlen(str) - 1;
+    while(end > str && isspace((unsigned char)*end)) end--;
+
+    end[1] = '\0';
+
+    return str;
+}
 
 /*
  * Get the name of the chatbot.
@@ -67,7 +85,6 @@ const char *chatbot_username() {
 	return "User";
 
 }
-
 
 /*
  * Get a response to user input.
@@ -199,17 +216,21 @@ int chatbot_do_load(int inc, char *inv[], char *response, int n) {
 		// File exist and would read the number of responses in it
 		responses = knowledge_read(file_check);
 		fclose(file_check);
-		printf("There are %d reponses in %s.",responses,file_check);
+    
+		//printf("There are %d reponses in %s.",responses,file_check);
+    	snprintf(response, n,"Read %d responses from %s", responses, inv[1]);
 	}
 	else
 	{
 		// File does not exist and an error message would pop out
-		printf("There is an error in loading the knowledge %s.",file_check);
+		//printf("There is an error in loading the knowledge %s.",file_check);
+    	strcpy(response,"There is an error in loading the File.");	
 	}
 		       
 	return 0;
 
 }
+
 
 
 /*
@@ -247,29 +268,29 @@ int chatbot_is_question(const char *intent) {
 int chatbot_do_question(int inc, char *inv[], char *response, int n) {
 	char *intent = inv[0];
 	char entity[MAX_ENTITY];
-    char ignore[MAX_ENTITY];			
-    char * ignorelist[] = {"is","are"};  
+    char ignore[MAX_ENTITY];
+    char * ignorelist[] = {"is","are"};
 
-	
 	getEntity(inc, inv, ignorelist, 2, entity, ignore);
 
 	if (knowledge_get(intent, entity, response, n ) == KB_NOTFOUND){
 		char answer[MAX_RESPONSE];
 		prompt_user(answer, n, "I Don't Know. %s%s%s", intent, ignore, entity);
 	
-	char *fliter = trim (answer);
-	if(strlen(fliter) != 0){
-		knowledge_put(intent,entity,fliter);
-		snprintf(response, n, "Thank You. ");
+		//char *fliter = trim(answer);
+		char *fliter = trimString(answer);
+		if(strlen(fliter) != 0){
+			knowledge_put(intent,entity,fliter);
+			snprintf(response, n, "Thank You. ");
 		}
-	else{
-		snprintf(response, n, ":-(");
-	}
+		else{
+			snprintf(response, n, ":-(");
+		}
 				
 	}
 	return 0;
 
-	
+
 
 }
 
@@ -291,8 +312,6 @@ int chatbot_is_reset(const char *intent) {
 	} else {
 		return 0;
 	}
-
-	return 0;
 
 }
 
@@ -333,8 +352,6 @@ int chatbot_is_save(const char *intent) {
 		return 0;
 	}
 
-	return 0;
-
 }
 
 
@@ -355,32 +372,32 @@ int chatbot_do_save(int inc, char *inv[], char *response, int n) {
 	// Checking to see if it is "save to" or "save as"
 	
 	if (compare_token(inv[1],"to") == 0 || compare_token(inv[1],"as") == 0)
-	    {
-		    strcpy(filename,inv[2]);
-	    }
+	{
+		strcpy(filename,inv[2]);
+	}
 	    
 	else 
-	    {
-		strcpy(filename,inv[1]);
-	    }
+	{
+	strcpy(filename,inv[1]);
+	}
 	    
 	// opening the file in write mode 
 	file_check = fopen(filename,"w");
 	
 	// To check whether if the file have been created 
 	if (file_check != NULL) 
-	    { 
-		    // if filename is created, it would write and save the knowedge in
-		    knowledge_write(file_check);
-		    fclose(file_check);
-		    printf("The new knowledge have been successfully saved to %s.",filename);
-	    }
+	{ 
+		// if filename is created, it would write and save the knowedge in
+		knowledge_write(file_check);
+		fclose(file_check);
+		printf("The new knowledge have been successfully saved to %s.",filename);
+	}
 	
 	else
-	    { 
-		    // if filename is not created, thee would be an error message which would show up
-		    printf("There seem to have some error in saving the new knowledge to %s.",filename);
-	    }
+	{ 
+		// if filename is not created, thee would be an error message which would show up
+		printf("There seem to have some error in saving the new knowledge to %s.",filename);
+	}
 	
 
 	return 0;
@@ -402,7 +419,10 @@ int chatbot_do_save(int inc, char *inv[], char *response, int n) {
 int chatbot_is_smalltalk(const char *intent) {
 
 	// if intent is hi/hello/goodbye
-	return compare_token(intent, "hi") == 0 || compare_token(intent, "hello") == 0 || compare_token(intent, "goodbye") == 0 || compare_token(intent, "it's") == 0 || compare_token(intent, "It's") == 0 || compare_token(intent, "its") == 0 || compare_token(intent, "joke") == 0; 
+	return compare_token(intent, "hi") == 0 || compare_token(intent, "hello") == 0 || 
+	compare_token(intent, "goodbye") == 0 || compare_token(intent, "it's") == 0 || 
+	compare_token(intent, "It's") == 0 || compare_token(intent, "its") == 0 || 
+	compare_token(intent, "joke") == 0; 
 
 }
 
@@ -425,26 +445,26 @@ int chatbot_do_smalltalk(int inc, char *inv[], char *response, int n) {
 		//stop the conversation
 		return 1;
 	}
-  if (compare_token(*inv, "its") == 0 ||compare_token(*inv, "it's") == 0 || compare_token(*inv, "It's") == 0) {
+  	if (compare_token(*inv, "its") == 0 ||compare_token(*inv, "it's") == 0 || compare_token(*inv, "It's") == 0) {
 		snprintf(response, n, "Indeed it is.");
-		//stop the conversation
+		//continue the conversation
 		return 0;
 	}
-  if (compare_token(*inv, "joke") == 0) {
-		snprintf(response, n, "I invented a new word\nAns: Plagiarism!");
-		//stop the conversation
+  	if (compare_token(*inv, "joke") == 0) {
+		snprintf(response, n, "Did you hear about the claustrophobic astronaut?\nAns: He just needed a little space");
+		//continue the conversation
 		return 0;
 	}
-		//if its not goodbye, respond hi
-  if (compare_token(*inv, "hi") == 0 ||compare_token(*inv, "hello") == 0) {
+	
+	//if its not goodbye, respond hi
+  	if (compare_token(*inv, "hi") == 0 ||compare_token(*inv, "hello") == 0) {
 		snprintf(response, n, "Hi!");
-		//stop the conversation
+		//continue the conversation
 		return 0;
 	}
-  return 1;
+	return 1;
 }
-	  	    
-	    
+	  	    	    
 // To ignore inv[1] if the word is 'is' or 'are'  
 	    
 int compare_ignorelist(char * word, char * ignorelist[], int ignorelistsize){
@@ -462,7 +482,6 @@ int compare_ignorelist(char * word, char * ignorelist[], int ignorelistsize){
 
 	    
 
-	    
 // Get entity from user's input 
 	    
 void getEntity(int inc, char *inv[], char * ignorelist[], int ignorelistsize, char entity[], char removed[]){
