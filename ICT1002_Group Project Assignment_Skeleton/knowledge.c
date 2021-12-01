@@ -111,7 +111,6 @@ int knowledge_put(const char *intent, const char *entity, const char *response) 
   char temp_response[MAX_RESPONSE]; /* Declare a temporary variable for response */
   int get_knowledge; /* Declare the variable to store the return value of knowledge_get */
   get_knowledge = knowledge_get(intent, entity, temp_response, MAX_RESPONSE); /* Call the function knowledge_get in order to check if there exists an intent-entity pair in the linked lists */
-  memset(temp_response,'\0',MAX_RESPONSE); /* Release the memory used for the temporary variable in order to use it for the next time knowledge_put is called */
   get_knowledge *= -1; /* This makes sure that all integer values from the return value of knowledge_get is a positive number */
   if (get_knowledge == 2){ /* If the intent is not a valid question word, return KB_INVALID */
     return KB_INVALID;
@@ -127,7 +126,7 @@ int knowledge_put(const char *intent, const char *entity, const char *response) 
           who_points = who_points->next; /* If cannot find the entity, then go to the next node in the "who" Linked List */
         } while(who_points != NULL); /* do-while loop that searches through all not null nodes in the "who" Linked List */
       } else if (get_knowledge == 1){  /* If the intent is "who", but the intent-entity pair does not exists */
-        question_node *new_node = malloc(sizeof(question_node)); /* assign memory for new_node */
+        question_node *new_node = (question_node *) malloc(sizeof(question_node));
         if (new_node == NULL){ /* memory allocation failure */
           return KB_NOMEM;
         } else { /* If no memory allocation failure, copy the intent, entity & response to the new_node and insert the new_node into the beginning of the "who" Linked List */
@@ -150,7 +149,7 @@ int knowledge_put(const char *intent, const char *entity, const char *response) 
           what_points = what_points->next; /* If cannot find the entity, then go to the next node in the "what" Linked List */
         } while(what_points != NULL); /* do-while loop that searches through all not null nodes in the "what" Linked List */
       } else if (get_knowledge == 1){ /* If the intent is "what", but the intent-entity pair does not exists */
-        question_node *new_node = malloc(sizeof(question_node)); /* assign memory for new_node */
+        question_node *new_node = (question_node *) malloc(sizeof(question_node));
         if (new_node == NULL){ /* memory allocation failure */
           return KB_NOMEM;
         } else { /* If no memory allocation failure, copy the intent, entity & response to the new_node and insert the new_node into the beginning of the "what" Linked List */
@@ -173,7 +172,7 @@ int knowledge_put(const char *intent, const char *entity, const char *response) 
           where_points = where_points->next; /* If cannot find the entity, then go to the next node in the "where" Linked List */
         } while(where_points != NULL); /* do-while loop that searches through all not null nodes in the "where" Linked List */
       } else if (get_knowledge == 1){ /* If the intent is "where", but the intent-entity pair does not exists */
-        question_node *new_node = malloc(sizeof(question_node)); /* assign memory for new_node */
+        question_node *new_node = (question_node *) malloc(sizeof(question_node));
         if (new_node == NULL){ /* memory allocation failure */
           return KB_NOMEM;
         } else { /* If no memory allocation failure, copy the intent, entity & response to the new_node and insert the new_node into the beginning of the "where" Linked List */
