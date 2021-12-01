@@ -316,10 +316,11 @@ void knowledge_reset() {
  */
 void knowledge_write(FILE *f) {
 
-	if (who_head != NULL){
+		if (who_head != NULL){
     fprintf(f, "[who]\n");
 	  while (who_head != NULL) { 
       fprintf(f, "%s=%s\n", who_head->entity, who_head->response);
+      who_head = who_head->next;
 		}
   }
 
@@ -327,6 +328,7 @@ void knowledge_write(FILE *f) {
     fprintf(f, "[what]\n");
 	  while (what_head != NULL) { 
       fprintf(f, "%s=%s\n", what_head->entity, what_head->response);
+      what_head = what_head->next;
 		}
   }
 
@@ -334,6 +336,7 @@ void knowledge_write(FILE *f) {
     fprintf(f, "[where]\n");
 	  while (where_head != NULL) { 
       fprintf(f, "%s=%s\n", where_head->entity, where_head->response);
+      where_head = where_head->next;
 		}
   }
 
